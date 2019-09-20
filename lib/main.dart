@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_booking/restaurant.dart';
-import 'package:restaurant_booking/starDisplay.dart';
+import 'package:restaurant_booking/widgets/loginScreen.dart';
+import 'package:restaurant_booking/widgets/restaurant.dart';
+import 'package:restaurant_booking/widgets/starDisplay.dart';
 import 'package:intl/intl.dart';
-import './restaurant.dart';
+import './widgets/restaurant.dart';
+import './widgets/commentSection.dart';
+import './widgets/loginScreen.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(MyApp());
+
+void successful_login_navigator(context){
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => HomeScreen()),
+  );
+}
 List<String> allCommentsList= new List<String>();
-String myuserName="";
+
 List<String> buttonsTitle = [
   "South",
   "North",
@@ -48,12 +58,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.orange,
           fontFamily: 'Montserrat',
         ),
-        home: Home1() //RestaurantPage(),
+        home: LoginScreen(successful_login_navigator) 
         );
   }
 }
 
-class Home extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   static int count1 = 0;
   static int count2 = 0;
   static int count3 = 0;
@@ -160,7 +170,7 @@ class Home extends StatelessWidget {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text( "היי,  "+myuserName +". ברוך השב!     ",
+                              Text( "היי,  " +". ברוך השב!     ",
                               style: TextStyle(  fontWeight: FontWeight.bold,),),
                               Text( 
                               DateFormat(' EEE d MMM  ').format(DateTime.now()),)
@@ -487,7 +497,7 @@ class MyCustomButton extends StatelessWidget {
 }
 
 class MyPersonalPage extends StatelessWidget {
-  List<String> allcommentString;
+  final List<String> allcommentString;
   MyPersonalPage(this.allcommentString);
   @override
   Widget build(BuildContext context) {
@@ -495,157 +505,5 @@ class MyPersonalPage extends StatelessWidget {
         body: Center(
       child: CommentSection(allCommentsList==null?['empty']:allCommentsList,0)
     ));
-  }
-}
-class Home1 extends StatelessWidget {
-
-  String _passwordUser1= "123456789";
-  String _passwordAdmin1 = "987654321";
-  String userNameAdmin ="Admin";
-  String userName = "5772705";
-
-  final passWordController = TextEditingController();
-  final userController = TextEditingController();
-
-  
-    void _onSaved(context){
-      final enteredUser = userController.text;
-      final password = passWordController.text;
-      print(password== _passwordUser1 );
-      
-      print(userNameAdmin== enteredUser);
-      if(password== _passwordUser1 && userName== enteredUser){
-        print("success Login!!"); 
-        myuserName= userName;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      }
-      else{
-        print("what?");
-      }
-    }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 7.0,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.list),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.favorite_border),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.person_outline),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(15.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[  
-                SizedBox(
-                  height: 11.0,
-                ),
-                ClipRRect( //Replace with logo]
-                  child: Padding(padding: EdgeInsets.only(left: 40.0) ,child: Center(child: Container(height: 300, width: 300,child: Image.asset("assets/imgs/logo.jpeg")))),
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
- 
-                Container(
-                  height: 100,
-                  // padding: EdgeInsets.symmetric(vertical: 9, horizontal: 13),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(9.0),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 5.0,
-                          offset: Offset(0, 5),
-                          color: Colors.grey[100]),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "התחברות",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 21,
-                        ),
-                      )
-                    ],
-                  ),
-                 
-                ),
-                new TextFormField(
-                  controller: userController,
-                  decoration: const InputDecoration(
-                      labelText: 'שם משתמש',
-                      icon: const Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          )),
-                ),
-                new TextFormField(
-                  controller: passWordController,
-                      decoration: const InputDecoration(
-                          labelText: 'סיסמה',
-                          icon: const Padding(
-                              padding: const EdgeInsets.only(top: 15.0),)),
-                              // onSaved: (val) => _password = val,
-                              // validator: (val) => val.length !=7 ? 'Password too short.' : null,
-                    ),
-                SizedBox(height: 15.0),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 9, horizontal: 13),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(9.0),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 5.0,
-                          offset: Offset(0, 5),
-                          color: Colors.grey[100]),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FlatButton(
-                        color: Colors.blueGrey,
-                        child: Text('התחבר'),
-                          textColor: Colors.black,
-                          onPressed: ()=>_onSaved(context),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
